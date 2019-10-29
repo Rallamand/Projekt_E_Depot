@@ -17,6 +17,7 @@
   </head>
   <body>
     <!-- Navbar -->
+    <p> hej </p>
     <?php include_once("./templates/header.php"); ?>
   </body>
 </html
