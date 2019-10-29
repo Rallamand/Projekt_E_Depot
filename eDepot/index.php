@@ -17,7 +17,10 @@
   </head>
   <body>
     <!-- Navbar -->
-    <p> hej </p>
-    <?php include_once("./templates/header.php"); ?>
+    <?php 
+      include_once("./templates/header.php"); 
+      include_once("./templates/tabel.php");
+    ?>
+
   </body>
 </html
