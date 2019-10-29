@@ -18,8 +18,8 @@
   <body>
     <!-- Navbar -->
     <?php 
-      include_once("./templates/header.php"); 
-      include_once("./templates/tabel.php");
+      include "./templates/header.php"; 
+      include "./templates/tabel.php";
     ?>
 
   </body>
