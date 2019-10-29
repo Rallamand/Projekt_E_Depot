@@ -30,28 +30,54 @@ if ($db->connect_errno) {
             
     <?php
       while ($row = $dbtype->fetch_assoc()){
+        $i = 1;
         $type = $row['navn'];
         $typeid = $row['type_id'];
-                  
+        $status = "";
+        $typeresult = $db->query("SELECT * FROM grej WHERE type_id='$typeid'");
+        $antal = $typeresult->num_rows;
+
+        $statusresult = $db->query("SELECT DISTINCT status_id FROM grej WHERE type_id='$typeid'");
+        while($row = $statusresult->fetch_assoc()){
+          $statusid = $row['status_id'];
+          $statusresult2 = $db->query("SELECT DISTINCT navn FROM status WHERE status_id='$statusid'");
+          while($row = $statusresult2->fetch_assoc()){
+            $status = $status . $row['navn'];
+            if($i < mysqli_num_rows($statusresult)){
+              $status .= "/";
+              $i++;
+            }
+          }
+        }
+        
+        $bygningresult = $db->query("SELECT ")
+
+
+        
+
+    
+        
+        
+        
     ?>
         
     <!-- tabel for grej type-->
-
     <tr style="text-align:center" id="heading<?php echo $typeid?>">
+    
       <td>
       <button class="btn btn-primary collapsed" type="button" data-toggle="collapse" data-target="#collapse<?php echo $typeid?>" aria-expanded="false" aria-controls="collapse<?php echo $typeid?>">
-      klik mig
+      Klik mig
       </button>
       </td>
 
       <!-- Antal -->
-      <td> 1 </td> 
+      <td> <?php echo $antal ?> </td> 
       
       <!-- Type -->  
       <td> <?php echo $type ?> </td>
       
       <!-- Status -->
-      <!-- <td><?php //echo $status ?></td> -->
+      <td> <?php echo $status ?></td>
       
       <!-- Bygning -->
       <!-- <td><?php //echo $bygning ?></td> -->
@@ -70,9 +96,23 @@ if ($db->connect_errno) {
           $dbgrej = $db->query("SELECT * FROM grej WHERE type_id='$typeid'");
         while ($row = $dbgrej->fetch_assoc()){
           $grej =$row['navn'];
-        
+          $statusid = $row['status_id'];
+          $dbstatus = $db->query("SELECT * FROM status WHERE status_id='$statusid'");
+          while ($row = $dbstatus->fetch_assoc()){
+          $status = $row['navn'];
+          }
         ?>
-        <tr style="text-align:center" id="collapse<?php echo $typeid?>" class="collapse" aria-labelledby="heading<?php echo $typeid?>" data-parent="#accordionExample">
+        
+                                                                                                                                                                                        <?php
+        if ($statusid == "1") {                                                                                                                                                       ?>
+          <tr style="background-color:#90EE90;text-align:center" id="collapse<?php echo $typeid?>" class="collapse" aria-labelledby="heading<?php echo $typeid?>" data-parent="#accordionExample">   <?php
+        } else if ($statusid == "2") {                                                                                                                                                ?>
+          <tr style="background-color:yellow;text-align:center" id="collapse<?php echo $typeid?>" class="collapse" aria-labelledby="heading<?php echo $typeid?>" data-parent="#accordionExample">  <?php
+        } else if ($statusid == "3") {                                                                                                                                                ?>
+          <tr style="background-color:red;text-align:center" id="collapse<?php echo $typeid?>" class="collapse" aria-labelledby="heading<?php echo $typeid?>" data-parent="#accordionExample">     <?php       
+        } else {                                                                                                                                                                        ?>
+          <tr style="text-align:center" id="collapse<?php echo $typeid?>" class="collapse" aria-labelledby="heading<?php echo $typeid?>" data-parent="#accordionExample">               <?php
+        }                                                                                                                                                                               ?>       
           <td></td>
           <!-- Antal -->
           <td> 1 </td> 
@@ -81,7 +121,7 @@ if ($db->connect_errno) {
           <td> <?php echo $grej ?> </td>
           
           <!-- Status -->
-          <!-- <td><?php //echo $status ?></td> -->
+          <td><?php echo $status ?></td>
           
           <!-- Bygning -->
           <!-- <td><?php //echo $bygning ?></td> -->
@@ -91,26 +131,14 @@ if ($db->connect_errno) {
         </tr>
           
           <?php
+          
         }
         ?>
-  </div>
-
-                  
+  </div>                 
               <?php
               }
               ?>
-          
-  
-      
-
-  
-  
   </table>
-
-
-
-
-
 
 <div class="card">
   <div class="card-header" id="headingThree">
